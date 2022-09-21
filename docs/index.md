@@ -106,14 +106,14 @@ cases. Pick the most basic test script that is failing. Always focus on
 any test cases that are failing on FL model (e.g., `ProcFL`) first
 since this means it is a bad test case.
 
-**Step 3: Zoom in on one failing test case
+**Step 3: Zoom in on one failing test case**
 
 Pick one failing test case to focus on, and run just that test case in
 isolation using `-k` (or maybe `-x`). Pick the most basic test case
 that is failing. Use `-s` to see the line trace. Use `--tb=long` or
 `--tb=short` to see the error message.
 
-**Step 4: Determine the observable error
+**Step 4: Determine the observable error**
 
 Look at the line trace and the error message. Determine what is the
 observable error. Often this will be a stream sink error but it could be
@@ -121,7 +121,7 @@ some other kind of error. Being able to crisply state the observeable
 error is critical. Simply saying "my code doesn't work," or "my code
 fails this test case" is not sufficient!
 
-**Step 5: Confirm the test case is valid
+**Step 5: Confirm the test case is valid**
 
 Look at the actual test case (in lab 2 this means look at the assembly
 sequence). Make absolutely sure you know what the test case is testing
@@ -133,7 +133,7 @@ continuing, although hopefully you spotted any failures on the FL model
 in step 1.
 
 **Step 6: Work backwards from observable error in line trace to
-  buggy cycle
+  buggy cycle**
 
 Work _backwards_ from the observable error on the line trace trying to
 see what is going wrong from just the line trace. NOTE: In lab 2, you can
@@ -155,7 +155,7 @@ corresponding code. Check for errors in bitwidth, in signal naming, or in
 connectivity. If you cannot spot anything obvious then go to the next
 step. If you spot something obvious skip to step 9.
 
-**Step 7: Zoom in on the buggy cycle in the waveform
+**Step 7: Zoom in on the buggy cycle in the waveform**
 
 Use the `--dump-vcd` option to generate a VCD file. Open the VCD
 file in gtkwave. Add the clock, reset, and key signals (e.g.,
@@ -164,7 +164,7 @@ view. Use the narrowed focus from Step 6 to zoom in on a specific cycle
 and a specific part of the design where you can clearly see a specific
 signal that is incorrect.
 
-**Step 8: Work backwards in space on the buggy cycle in waveform
+**Step 8: Work backwards in space on the buggy cycle in waveform**
 
 Work _backwards_ from the signal which is incorrect. Work backwards in
 the datapath -- keep working backwards component by component. For each
@@ -186,7 +186,7 @@ status signals). Check for one of three things:
     component? Then you have gone backwards too far and you need to go
     forward in again to find a signal which is incorrect.
 
-**Step 9: Make a hypothesis on what is wrong and on buggy cycle
+**Step 9: Make a hypothesis on what is wrong and on buggy cycle**
 
 Once you find a bug, make a hypothesis about what should happen if you
 fix the bug. Your hypothesis should not just be "fixing the bug will make
@@ -194,7 +194,7 @@ the test pass." It should instead be something like "fixing this bug
 should make this specific signal be 1 instead of 0" or "fixing this bug
 should make this specific instruction in the line trace stall".
 
-**Step 10: Fix bug and test hypothesis
+**Step 10: Fix bug and test hypothesis**
 
 Fix the bug and see what happens by looking at the line trace and/or
 waveform. Don't just see if it passes the test -- literally check the
