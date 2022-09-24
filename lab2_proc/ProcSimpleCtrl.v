@@ -302,9 +302,9 @@ module lab2_proc_ProcSimpleCtrl
     input logic       cs_inst_val,
     input logic [2:0] cs_br_type,
     input logic [2:0] cs_imm_type,
-    input logic       cs_rs2_en,
-    input logic [1:0] cs_op2_sel,
     input logic       cs_rs1_en,
+    input logic [1:0] cs_op2_sel,
+    input logic       cs_rs2_en,
     input logic [3:0] cs_alu_fn,
     input logic [1:0] cs_dmem_reqstream_type,
     input logic       cs_wb_result_sel,
@@ -383,50 +383,50 @@ module lab2_proc_ProcSimpleCtrl
 
   logic  ostall_waddr_X_rs1_D;
   assign ostall_waddr_X_rs1_D
-    = rs1_en_D && val_X && rf_wen_X
+    = val_D && rs1_en_D && val_X && rf_wen_X
       && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
   // ostall if write address in M matches rs1 in D
 
   logic  ostall_waddr_M_rs1_D;
   assign ostall_waddr_M_rs1_D
-    = rs1_en_D && val_M && rf_wen_M
+    = val_D && rs1_en_D && val_M && rf_wen_M
       && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
   // ostall if write address in W matches rs1 in D
 
   logic  ostall_waddr_W_rs1_D;
   assign ostall_waddr_W_rs1_D
-    = rs1_en_D && val_W && rf_wen_W
+    = val_D && rs1_en_D && val_W && rf_wen_W
       && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
   // ostall if write address in X matches rs2 in D
 
   logic  ostall_waddr_X_rs2_D;
   assign ostall_waddr_X_rs2_D
-    = rs2_en_D && val_X && rf_wen_X
+    = val_D && rs2_en_D && val_X && rf_wen_X
       && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
   // ostall if write address in M matches rs2 in D
 
   logic  ostall_waddr_M_rs2_D;
   assign ostall_waddr_M_rs2_D
-    = rs2_en_D && val_M && rf_wen_M
+    = val_D && rs2_en_D && val_M && rf_wen_M
       && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
   // ostall if write address in W matches rs2 in D
 
   logic  ostall_waddr_W_rs2_D;
   assign ostall_waddr_W_rs2_D
-    = rs2_en_D && val_W && rf_wen_W
+    = val_D && rs2_en_D && val_W && rf_wen_W
       && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
   // Put together ostall signal due to hazards
 
   logic  ostall_hazard_D;
-  assign ostall_hazard_D =
+  assign ostall_hazard_D = val_D && (
       ostall_waddr_X_rs1_D || ostall_waddr_M_rs1_D || ostall_waddr_W_rs1_D ||
-      ostall_waddr_X_rs2_D || ostall_waddr_M_rs2_D || ostall_waddr_W_rs2_D;
+      ostall_waddr_X_rs2_D || ostall_waddr_M_rs2_D || ostall_waddr_W_rs2_D );
 
   // Final ostall signal
 

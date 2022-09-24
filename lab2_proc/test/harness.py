@@ -157,6 +157,7 @@ def run_test( ProcModel, gen_test,
 
   # print(asm_prog)
 
+  print(asm_prog)
   mem_image = assemble( asm_prog )
   model.load( mem_image )
 
