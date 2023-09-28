@@ -5,17 +5,19 @@ ECE 4750 Section 5: Bug Hunt
  - Author: Christopher Batten
  - Date: September 18, 2022
 
+Slightly modified by Cecilio C. Tamarit (09/28/23)
+
 **Table of Contents**
 
  - Diverse Testing Strategies
  - 10-step Systematic Debugging Process
 
-In this discussion section, Prof. Batten will attempt to find a bug
-injected into the simple processor we explored in the previoud discussoin
+In this discussion section, Prof. Batten used to attempt to find a bug
+injected into the simple processor we explored in the previous discussion
 section. The processor implements the CSRR, CSRW, ADD, ADDI, LW, and BNE
-instructions. Prof. Batten has _no_ prior knowledge of the bug in any
-way! The ECE 4750 TAs have secretly injected the bug. To find the bug,
-Prof. Batten will make use of a robust testing strategy and a 10-step
+instructions. Following tradition, Cecilio has _no_ prior knowledge of the 
+bug in any way! The ECE 4750 TAs have secretly injected the bug. To find the bug,
+the presenter will make use of a robust testing strategy and a 10-step
 systematic debugging process.
 
 Diverse Testing Strategies
@@ -33,19 +35,19 @@ typically a single module. A unit test is typically conducted by creating
 a testbench, a.k.a. test harness, which is a separate program whose sole
 purpose is to check that a module returns correct output values for a
 variety of input values. Each unique set of input values is known as a
-test vector. Manually examining printed output is cumbersome and error
-prone. A better test harness would only print a message for incorrect
+test vector. Manually examining printed output is cumbersome and error-prone. 
+A better test harness would only print a message for incorrect
 output. Integration involves testing the composition of various modules
-and should only be attempted after we have unit tested those modules.
+and should only be attempted after we have unit-tested those modules.
 
 We will be using a mix of black-box and white-box testing. Black box
 testing is where your test cases only test the _interface_ of your
 design. Black-box testing does not _directly_ test any of the internals
 within your design. Obviously, black-box testing will _indirectly_ test
-the internals though. White-box testing is where your test cases directly
+the internals, though. White-box testing is where your test cases directly
 test the internals by perhaps poking into the design using hierarchical
 signal references. White-box testing is pretty fragile so we won't really
-be using it in this course. We also might do what I call "gray-box"
+be using it in this course. We also might do what some call "gray-box"
 testing. This is where you choose specific test vectors that are
 carefully designed to trigger complex behavior in a specific
 implementation. Since gray-box tests can be applied to any
