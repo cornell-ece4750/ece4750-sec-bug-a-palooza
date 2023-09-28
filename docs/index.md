@@ -5,7 +5,7 @@ ECE 4750 Section 6: Bug-a-palooza!
  - Author: Christopher Batten
  - Date: September 18, 2022
 
-Slightly modified by Cecilio C. Tamarit (09/28/23)
+Modified by Cecilio C. Tamarit (09/28/23)
 
 **Table of Contents**
 
@@ -92,21 +92,24 @@ systematic.
 
 Here is our recommended systematic debugging process. Use this process
 after you have fixed any Verilog syntax errors and you are now getting
-some kind of incorrect result. REMEMBER: You must use `--tb=short` or
-`--tb=long` to see the error message when using pytest!
+some kind of incorrect result.
 
 **Step 1: Run all tests**
 
 Run all of the tests to get a high-level view of which test cases are
 passing and failing.
 
-**Step 2: Zoom in on one failing test script**
+**Step 2: Zoom in on one module**
 
-Pick one failing test script to focus on, and run just that test script
-in isolation with the `--verbose` flag to get a list of the test
-cases. Pick the most basic test script that is failing. Always focus on
-any test cases that are failing on FL model (e.g., `ProcFL`) first
-since this means it is a bad test case.
+Pick one failing module, ideally the "innermost" (as opposed to the top
+module, e.g. the whole processor), and for that module, focus on a singe 
+test assembly program, ideally the most basic one among the ones that are
+failing. Then, run the Makefile with just that one design and
+program combination in isolation. Make sure to use the `RUN_ARG=--trace` 
+flag to get cycle-by-cycle information, and set the VCD flag to 1 if you
+want to generate waveform outputs in said format. We will need all the help we can
+get! Start with any test cases that are failing on the FL model 
+(e.g., `ProcFLMultiCycle`) first since this means it is a bad test case.
 
 **Step 3: Zoom in on one failing test case**
 
