@@ -1,5 +1,5 @@
 
-ECE 4750 Section 5: Bug Hunt
+ECE 4750 Section 6: Bug-a-palooza!
 ==========================================================================
 
  - Author: Christopher Batten
