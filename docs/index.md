@@ -97,12 +97,14 @@ some kind of incorrect result.
 **Step 1: Run all tests**
 
 Run all of the tests to get a high-level view of which test cases are
-passing and failing.
+passing and failing. Start with the unit tests (if you have any!) to ascertain
+each submodule works as expected, then move on to integration testing to
+make sure they interact correctly.
 
-**Step 2: Zoom in on one module**
+**Step 2: Zoom in on one test program**
 
 Pick one failing module, ideally the "innermost" (as opposed to the top
-module, e.g. the whole processor), and for that module, focus on a singe 
+module, e.g. the whole processor), and for that module, focus on a single 
 test assembly program, ideally the most basic one among the ones that are
 failing. Then, run the Makefile with just that one design and
 program combination in isolation. Make sure to use the `RUN_ARG=--trace` 
