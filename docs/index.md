@@ -101,11 +101,12 @@ passing and failing. Start with the unit tests (if you have any!) to ascertain
 each submodule works as expected, then move on to integration testing to
 make sure they interact correctly.
 
-**Step 2: Zoom in on one test program**
+**Step 2: Zoom in on one failing test program / test case**
 
 Pick one failing module, ideally the "innermost" (as opposed to the top
-module, e.g. the whole processor), and for that module, focus on a single 
-test assembly program, ideally the most basic one among the ones that are
+module, e.g. the whole processor), and for that module, focus on its 
+individual testbench (utb_***). In the case of lab 2, focus on a single 
+assembly program, ideally the most basic one among the ones that are
 failing. Then, run the Makefile with just that one design and
 program combination in isolation. Make sure to use the `RUN_ARG=--trace` 
 flag to get cycle-by-cycle information, and set the VCD flag to 1 if you
@@ -113,22 +114,7 @@ want to generate waveform outputs in said format. We will need all the help we c
 get! Start with any test cases that are failing on the FL model 
 (e.g., `ProcFLMultiCycle`) first since this means it is a bad test case.
 
-**Step 3: Zoom in on one failing test case**
-
-Pick one failing test case to focus on, and run just that test case in
-isolation using `-k` (or maybe `-x`). Pick the most basic test case
-that is failing. Use `-s` to see the line trace. Use `--tb=long` or
-`--tb=short` to see the error message.
-
-**Step 4: Determine the observable error**
-
-Look at the line trace and the error message. Determine what is the
-observable error. Often this will be a stream sink error but it could be
-some other kind of error. Being able to crisply state the observeable
-error is critical. Simply saying "my code doesn't work," or "my code
-fails this test case" is not sufficient!
-
-**Step 5: Confirm the test case is valid**
+**Step 3: Confirm the test case is valid**
 
 Look at the actual test case (in lab 2 this means look at the assembly
 sequence). Make absolutely sure you know what the test case is testing
@@ -139,7 +125,16 @@ happen! You might want to run the test case on FL model (e.g.,
 continuing, although hopefully you spotted any failures on the FL model
 in step 1.
 
-**Step 6: Work backwards from observable error in line trace to
+**Step 4: Determine the observable error**
+
+Look at the line trace and the error message. Determine what is the
+observable error. Often this will be a stream sink error but it could be
+some other kind of error. Being able to state the observable
+error crisply is critical. Simply saying "my code doesn't work," or 
+"my code fails this test case" is not sufficient!
+
+
+**Step 5: Work backwards from observable error in line trace to
   buggy cycle**
 
 Work _backwards_ from the observable error on the line trace trying to
@@ -148,7 +143,7 @@ see the instruction memory request and response _and_ the data memory
 request and response in the line trace -- you can often spot errors for
 LW or SW right from the line trace by looking at the data memory request
 and response messages (incorrect message type? incorrect address?
-incorrect data being read/written?). Similarly you can often spot errors
+incorrect data being read/written?). Similarly, you can often spot errors
 for instruction fetch from the line trace. You can also often see errors
 in control flow (are the wrong instructions being executed, squashed) or
 errors in stalling/bypassing logic (is an instruction not stalling when
@@ -160,18 +155,17 @@ focus to a specific buggy cycle where something is going wrong.
 Based on the narrowed focus from step 6, take a quick look at the
 corresponding code. Check for errors in bitwidth, in signal naming, or in
 connectivity. If you cannot spot anything obvious then go to the next
-step. If you spot something obvious skip to step 9.
+step. If you spot something obvious skip to step 8.
 
-**Step 7: Zoom in on the buggy cycle in the waveform**
+**Step 6: Zoom in on the buggy cycle in the waveform**
 
-Use the `--dump-vcd` option to generate a VCD file. Open the VCD
-file in gtkwave. Add the clock, reset, and key signals (e.g.,
+Open the FST or VCD file in gtkwave. Add the clock, reset, and key signals (e.g.,
 `inst_D`, `inst_X`, `inst_M`, `inst_W`) to the waveform
 view. Use the narrowed focus from Step 6 to zoom in on a specific cycle
 and a specific part of the design where you can clearly see a specific
 signal that is incorrect.
 
-**Step 8: Work backwards in space on the buggy cycle in waveform**
+**Step 7: Work backwards in space on the buggy cycle in waveform**
 
 Work _backwards_ from the signal which is incorrect. Work backwards in
 the datapath -- keep working backwards component by component. For each
@@ -193,7 +187,7 @@ status signals). Check for one of three things:
     component? Then you have gone backwards too far and you need to go
     forward in again to find a signal which is incorrect.
 
-**Step 9: Make a hypothesis on what is wrong and on buggy cycle**
+**Step 8: Make a hypothesis on what is wrong and on buggy cycle**
 
 Once you find a bug, make a hypothesis about what should happen if you
 fix the bug. Your hypothesis should not just be "fixing the bug will make
@@ -201,7 +195,7 @@ the test pass." It should instead be something like "fixing this bug
 should make this specific signal be 1 instead of 0" or "fixing this bug
 should make this specific instruction in the line trace stall".
 
-**Step 10: Fix bug and test hypothesis**
+**Step 9: Fix bug and test hypothesis**
 
 Fix the bug and see what happens by looking at the line trace and/or
 waveform. Don't just see if it passes the test -- literally check the
@@ -227,15 +221,18 @@ trace. One of four things will happen:
     pass -- there might be something subtle going on -- go back to step 6
     to figure out why the bug fix did not do what you thought it would.
 
-Note a couple things about this systematic 10 step process. First, it is
+**Step 10: If all else fails**
+Come to office hours!
+
+Note a couple of things about this systematic 10-step process. First, it is
 a systematic process ... it does not involve randomly trying things.
-Second, the process uses all tools at your disposable: output from
-pytest, traceback, line tracing, and VCD waveforms. You really need to
+Second, the process uses all tools at your disposal: output from
+Verilator, traceback, line tracing, and VCD waveforms. You really need to
 use all of these tools. If you use line tracing but never use VCD
 waveforms or you use VCD waveforms and never use line tracing then you
 are putting yourself at a disadvantage. Third, the process requires you
 to think critically and make a hypothesis about what should change -- do
 not just change something, pass the test, and move on -- change something
 and see if the line trace and waveforms change in the way you expect.
-Otherwise you can actually introduce more bugs even though you think are
+Otherwise, you can actually introduce more bugs even though you think are
 fixing things.
