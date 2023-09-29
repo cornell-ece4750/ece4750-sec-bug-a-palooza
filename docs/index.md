@@ -121,7 +121,7 @@ sequence). Make absolutely sure you know what the test case is testing
 and that the test case is valid. You have no hope of debugging your
 design if you do not understand what correct execution you expect to
 happen! You might want to run the test case on FL model (e.g.,
-`ProcFL`) just verify that this actually a valid test case before
+`ProcFLMultiCycle`) just verify that this actually a valid test case before
 continuing, although hopefully you spotted any failures on the FL model
 in step 1.
 
